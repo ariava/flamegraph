@@ -156,7 +156,6 @@ def flow(last, this, v):
 		# func-depth isn't unique, it may be repeated later.
 		Node[str(k) + ";" + str(v)] = {}
 		Node[str(k) + ";" + str(v)]["stime"] = Tmp[k]["stime"]
-		#print str(k) + ";" + str(v), Node[str(k) + ";" + str(v)]["stime"]
 		del Tmp[str(k)]["stime"]
 		del Tmp[str(k)]
 		i -= 1
@@ -263,7 +262,6 @@ nameattr = {}
 for (id, node) in Node.iteritems():
 	(func, depth, etime) = id.split(';')
 	stime = node["stime"]
-	#print func, depth, etime
 
 	if func == "" and depth == 0:
 		etime = timemax
@@ -275,7 +273,6 @@ for (id, node) in Node.iteritems():
 
 	samples = (float(etime) - float(stime)) * float(factor)
 	samples_txt = samples	# add commas per perlfaq5
-	#rx = re.compile(r'(^[-+]?\d+?(?=(?>(?:\d{3})+)(?!\d))|\G\d{3}(?=\d))')
 	rx = re.compile(r'(^[-+]?\d+?(?=((?:\d{3})+)(?!\d))|\G\d{3}(?=\d))')
 	samples_txt = rx.sub(r'\g<1>,', str(samples_txt))
 
