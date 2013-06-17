@@ -15,7 +15,7 @@ parser.add_argument("-f", "--fonttype", help="font type (default \"Verdana\")", 
 parser.add_argument("-w", "--width", help="width of image (default 1200)", action="store", default=1200)
 parser.add_argument("-H", "--height", help="height of each frame (default 16)", action="store", default=16)
 parser.add_argument("-s", "--fontsize", help="font size (default 12)", action="store", default=12)
-parser.add_argument("-i", "--fontwidth", help="font width (defailt 0.55)", action="store", default=0.55)
+parser.add_argument("-i", "--fontwidth", help="font width (default 0.55)", action="store", default=0.55)
 parser.add_argument("-m", "--minwidth", help="omit smaller functions (default 0.1 pixels)", action="store", default=0.1)
 parser.add_argument("-t", "--titletext", help="change title text", action="store", default="Flame Graph")
 parser.add_argument("-n", "--nametype", help="name type label (default \"Function:\")", action="store", default="Function:")
@@ -304,10 +304,11 @@ for (id, node) in Node.iteritems():
 	im.filledRectangle(float(x1), float(y1), float(x2), float(y2), color("hot"), 'rx="2" ry="2"')
 
 	chars = int((x2 - x1) / (fontsize * fontwidth))
-	if chars >= 3:
+	if chars >= 3: # print something only if there is room for 3 characters
 		text = func[:chars]
 		if chars < len(func):
-			list(text)[-2:2] = ['.', '.']
+			tex = list(text)[:-3]
+			text = ''.join(tex) + ".."
 		text = re.sub("&", "&amp;", text)
 		text = re.sub("<", "&lt;", text)
 		text = re.sub(">", "&gt;", text)
