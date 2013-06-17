@@ -1,0 +1,23 @@
+./stackcollapse-{perf,stap}.py	-- generate formatted performance data
+				   for the output of "perf script" and
+				   for the output of the stap script
+				   used in the below example
+./flamegraph.py			-- generate an SVG flamegraph
+
+Following example involves the execution of a one-second sleep.
+
+*** PERF USAGE ***
+
+perf record -a -g -F 1000 sleep 1
+perf script | ./stackcollapse-perf.py | ./flamegraph.py > perf-kernel.svg
+
+*** SYSTEMTAP USAGE ***
+
+stap -s 32 -D MAXBACKTRACE=100 -D MAXSTRINGLEN=4096 -D MAXMAPENTRIES=10240 \
+    -D MAXACTION=10000 -D STP_OVERLOAD_THRESHOLD=5000000000 --all-modules \
+    -ve 'global s; probe timer.profile { s[backtrace()] <<< 1; }
+    probe end { foreach (i in s+) { print_stack(i);
+    printf("\t%d\n", @count(s[i])); } } probe timer.s(1) { exit(); }' \
+    > out.stap-stacks
+./stackcollapse-stap.py out.stap-stacks > out.stap-folded
+cat out.stap-folded | ./flamegraph.py > stap-kernel.svg
