@@ -1,10 +1,20 @@
-./stackcollapse-{perf,stap}.py	-- generate formatted performance data
-				   for the output of "perf script" and
-				   for the output of the stap script
-				   used in the below example
-./flamegraph.py			-- generate an SVG flamegraph
+*** OVERVIEW ***
 
-Following example involves the execution of a one-second sleep.
+This tool is composed by three scripts:
+
+./stackcollapse-perf.py	
+	generates formatted performance data starting from the output
+	of "perf script".
+
+./stackcollapse-stap.py
+	generates formatted performance data starting from the output
+	of the below example.
+
+./flamegraph.py
+	generates an SVG flamegraph starting from the output of one
+	of the previous script.
+
+The following example involves the execution of a one-second sleep.
 
 *** PERF USAGE ***
 
